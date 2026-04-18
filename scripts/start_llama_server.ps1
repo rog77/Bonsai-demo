@@ -63,6 +63,8 @@ Write-Host "  API:  http://localhost:$Port/v1/chat/completions"
 Write-Host "  Press Ctrl+C to stop."
 Write-Host ""
 
+$ChatTemplateKwargs = if ($IsWindows) { '{\"enable_thinking\": false}' } else { '{"enable_thinking": false}' }
+
 $ServerArgs = @(
     "-m", $Model.FullName,
     "--host", $HostAddress,
@@ -75,7 +77,7 @@ $ServerArgs = @(
     "--min-p", "0",
     "--reasoning-budget", "0",
     "--reasoning-format", "none",
-    "--chat-template-kwargs", '{"enable_thinking": false}'
+    "--chat-template-kwargs", $ChatTemplateKwargs
 )
 
 & $Bin @ServerArgs @args
